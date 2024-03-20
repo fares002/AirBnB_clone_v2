@@ -44,15 +44,16 @@ class DBStorage:
 
     def all(self, cls=None):
         """Query and return all objects by class/generally
-        Return: dictionary (<class-name>.<object-id>: <obj>)
+        Return: key = <class-name>.<object-id>
+                value = object
         """
         obj_dictionry = {}
 
         if cls:
-            for row in self.__session.query(cls).all():
+            for obj in self.__session.query(cls).all():
                 # populate dict with objects from storage
                 obj_dictionry.update({'{}.{}'.
-                                format(type(cls).__name__, row.id,): row})
+                                format(type(cls).__name__, obj.id,): obj})
         else:
 i            for key, val in all_classes.items():
                 for row in self.__session.query(val):
