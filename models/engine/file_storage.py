@@ -1,59 +1,71 @@
 #!/usr/bin/python3
-"""This module defines a class to manage file storage for hbnb clone"""
+"""This module defines a class to manage file"""
 import json
+from models.base_model import BaseModel
+from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
+import shlex
 
 
 class FileStorage:
-    """This class manages storage of hbnb models in JSON format"""
-    __file_path = 'file.json'
+    """filestorage
+    """
+    __file_path = "file.json"
     __objects = {}
 
     def all(self, cls=None):
-        """Returns a dictionary of models currently in storage"""
-        dicationary = {}
+        """all
+        """
+        dictionary = {}
         if cls:
             dic = self.__objects
-            for k in dic:
-                part = k.replace('.', ' ')
-                part = shelx.split(part)
+            for key in dic:
+                part = key.replace('.', ' ')
+                part = shlex.split(part)
                 if (part[0] == cls.__name__):
-                    dicationary[k] = self.__objects[k]
-            return (dicationary)
+                    dictionary[key] = self.__objects[key]
+            return (dictionary)
         else:
             return self.__objects
 
     def new(self, obj):
-        """Adds new object to storage dictionary"""
+        """new"""
         if obj:
-            k = "{}.{}".format(type(obj).__name__, obj.id)
-            self.__objects[k] = obj
+            key = "{}.{}".format(type(obj).__name__, obj.id)
+            self.__objects[key] = obj
 
     def save(self):
-        """Saves storage dictionary to file"""
+        """ save
+        """
         dictt = {}
-        for k, v in self.__objects.items():
-            dictt[k] = v.to_dict()
+        for key, value in self.__objects.items():
+            dictt[key] = value.to_dict()
         with open(self.__file_path, 'w', encoding="UTF-8") as f:
             json.dump(dictt, f)
 
     def reload(self):
-        """Loads storage dictionary from file"""
+        """reload
+        """
         try:
             with open(self.__file_path, 'r', encoding="UTF-8") as f:
-                for k, value in
-(json.load(f)).items():
-                    value = eval(value["__class__"])
-(**value)
-                    self.__objects[k] = value 
+                for key, value in (json.load(f)).items():
+                    value = eval(value["__class__"])(**value)
+                    self.__objects[key] = value
         except FileNotFoundError:
             pass
 
     def delete(self, obj=None):
-        """delete"""
+        """ delete
+        """
         if obj:
-            k = "{}.{}".format(type(obj).__name__, obj.id)
-            del self.__objects[k]
+            obk = "{}.{}".format(type(obj).__name__, obj.id)
+            del self.__objects[obk]
 
     def close(self):
-        """ calls"""
+        """ calls reload()
+        """
         self.reload()
