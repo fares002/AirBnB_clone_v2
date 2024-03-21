@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""This is the city class"""
+"""city class"""
 import models
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, ForeignKey
@@ -7,12 +7,7 @@ from sqlalchemy.orm import relationship
 
 
 class City(BaseModel, Base):
-    """This is the class for City
-    City inherits from BaseModel and Base (respect the order)
-    Attributes:
-        state_id: The state id
-        name: input name
-    """
+    """city class"""
     # initialize class for file/db storage type
     __tablename__ = 'cities'
     name = Column(String(128), nullable=False)
