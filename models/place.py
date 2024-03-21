@@ -45,18 +45,18 @@ class Place(BaseModel, Base):
         @property
         def reviews(self):
             """ review """
-            var = models.storage.all()
-            lista = []
-            result = []
-            for key in var:
+            i = models.storage.all()
+            _list = []
+            re = []
+            for key in i:
                 review = key.replace('.', ' ')
                 review = shlex.split(review)
                 if (review[0] == 'Review'):
-                    lista.append(var[key])
-            for elem in lista:
+                    _list.append(i[key])
+            for elem in _list:
                 if (elem.place_id == self.id):
-                    result.append(elem)
-            return (result)
+                    re.append(elem)
+            return (re)
 
         @property
         def amenities(self):
