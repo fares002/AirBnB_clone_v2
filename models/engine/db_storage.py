@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" new class for sqlAlchemy """
+"""class storage """
 from os import getenv
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy import (create_engine)
@@ -14,7 +14,7 @@ from models.amenity import Amenity
 
 
 class DBStorage:
-    """dbsstroage class"""
+    """dbstorage class"""
     __engine = None
     __session = None
 
@@ -33,45 +33,46 @@ class DBStorage:
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
-        """all"""
-        i = {}
+        """alll"""
+        dic = {}
         if cls:
             if type(cls) is str:
                 cls = eval(cls)
             query = self.__session.query(cls)
             for elem in query:
                 key = "{}.{}".format(type(elem).__name__, elem.id)
-                i[key] = elem
+                dic[key] = elem
         else:
             lista = [State, City, User, Place, Review, Amenity]
             for clase in lista:
                 query = self.__session.query(clase)
                 for elem in query:
                     key = "{}.{}".format(type(elem).__name__, elem.id)
-                    i[key] = elem
-        return (i)
+                    dic[key] = elem
+        return (dic)
 
     def new(self, obj):
-        """nem"""
+        """new"""
         self.__session.add(obj)
 
     def save(self):
-        """save
-        """
+        """save"""
         self.__session.commit()
 
     def delete(self, obj=None):
-        """delete"""
+        """deleye"""
         if obj:
             self.session.delete(obj)
 
     def reload(self):
-        """reload"""
+        """relaod"
+        """
         Base.metadata.create_all(self.__engine)
-        basee = sessionmaker(bind=self.__engine, expire_on_commit=False)
-        Session = scoped_session(basee)
+        sec = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        Session = scoped_session(sec)
         self.__session = Session()
 
     def close(self):
-        """close"""
+        """ close
+        """
         self.__session.close()

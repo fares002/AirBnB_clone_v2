@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""state class"""
+"""class stale"""
 from sqlalchemy.ext.declarative import declarative_base
 from models.base_model import BaseModel, Base
 from sqlalchemy.orm import relationship
@@ -10,8 +10,7 @@ import shlex
 
 
 class State(BaseModel, Base):
-    """state class
-    """
+    """state calss"""
     __tablename__ = "states"
     name = Column(String(128), nullable=False)
     cities = relationship("City", cascade='all, delete, delete-orphan',
@@ -19,15 +18,15 @@ class State(BaseModel, Base):
 
     @property
     def cities(self):
-        i = models.storage.all()
-        _list = []
-        re = []
-        for key in i:
+        var = models.storage.all()
+        lista = []
+        result = []
+        for key in var:
             city = key.replace('.', ' ')
             city = shlex.split(city)
             if (city[0] == 'City'):
-                _list.append(i[key])
-        for j in _list:
-            if (j.state_id == self.id):
-                re.append(j)
-        return (re)
+                lista.append(var[key])
+        for elem in lista:
+            if (elem.state_id == self.id):
+                result.append(elem)
+        return (result)

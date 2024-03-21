@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""base model class"""
+"""class"""
 from sqlalchemy.ext.declarative import declarative_base
 import uuid
 import models
@@ -11,13 +11,13 @@ Base = declarative_base()
 
 
 class BaseModel:
-    """basemidel calss"""
+    """basemodel"""
     id = Column(String(60), unique=True, nullable=False, primary_key=True)
     created_at = Column(DateTime, nullable=False, default=(datetime.utcnow()))
     updated_at = Column(DateTime, nullable=False, default=(datetime.utcnow()))
 
     def __init__(self, *args, **kwargs):
-        """initilze class"""
+        """init"""
         if kwargs:
             for key, value in kwargs.items():
                 if key == "created_at" or key == "updated_at":
@@ -35,30 +35,29 @@ class BaseModel:
             self.created_at = self.updated_at = datetime.now()
 
     def __str__(self):
-        """str fun"""
+        """str"""
         return "[{}] ({}) {}".format(
             type(self).__name__, self.id, self.__dict__)
 
     def __repr__(self):
-        """ repr fun
-        """
+        """repr"""
         return self.__str__()
 
     def save(self):
-        """save fun"""
+        """save"""
         self.updated_at = datetime.now()
         models.storage.new(self)
         models.storage.save()
 
     def to_dict(self):
-        """to dictionary fun"""
-        dictt = dict(self.__dict__)
-        dictt["__class__"] = str(type(self).__name__)
-        dictt["created_at"] = self.created_at.isoformat()
-        dictt["updated_at"] = self.updated_at.isoformat()
-        if '_sa_instance_state' in dictt.keys():
-            del dictt['_sa_instance_state']
-        return dictt
+        """to dictionary"""
+        my_dict = dict(self.__dict__)
+        my_dict["__class__"] = str(type(self).__name__)
+        my_dict["created_at"] = self.created_at.isoformat()
+        my_dict["updated_at"] = self.updated_at.isoformat()
+        if '_sa_instance_state' in my_dict.keys():
+            del my_dict['_sa_instance_state']
+        return my_dict
 
     def delete(self):
         """ delete

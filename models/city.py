@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""city calss"""
+"""class city"""
 from sqlalchemy.ext.declarative import declarative_base
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, Integer, String
@@ -9,8 +9,7 @@ from models.place import Place
 
 
 class City(BaseModel, Base):
-    """city class
-    """
+    """city class"""
     __tablename__ = "cities"
     name = Column(String(128), nullable=False)
     state_id = Column(String(60), ForeignKey('states.id'), nullable=False)
