@@ -25,13 +25,13 @@ class Place(BaseModel, Base):
     city_id = Column(String(60), ForeignKey("cities.id"), nullable=False)
     user_id = Column(String(60), ForeignKey("users.id"), nullable=False)
     name = Column(String(128), nullable=False)
-    description = Column(String(1024))
+    description = Column(String(1024), nullable=False)
     number_rooms = Column(Integer, nullable=False, default=0)
     number_bathrooms = Column(Integer, nullable=False, default=0)
     max_guest = Column(Integer, nullable=False, default=0)
     price_by_night = Column(Integer, nullable=False, default=0)
-    latitude = Column(Float)
-    longitude = Column(Float)
+    latitude = Column(Float, nullable=False)
+    longitude = Column(Float, nullable=False)
     amenity_ids = []
 
     if getenv("HBNB_TYPE_STORAGE") == "db":
@@ -42,21 +42,15 @@ class Place(BaseModel, Base):
                                  viewonly=False,
                                  back_populates="place_amenities")
     else:
-        @property
+         @property
         def reviews(self):
-            """ reviews """
-            i = models.storage.all()
-            listj = []
-            re = []
-            for key in i:
-                review = key.replace('.', ' ')
-                review = shlex.split(review)
-                if (review[0] == 'Review'):
-                    listj.append(i[key])
-            for elem in listj:
-                if (elem.place_id == self.id):
-                    re.append(elem)
-            return (re)
+            """ getter returns list of reviews """
+            list_of_reviews = []
+            all_reviews = models.storage.all(Review)
+            for review in all_reviews.values():
+                if review.place_id == self.id:
+                    list_of_reviews.append(review)
+            return list_of_reviews
 
         @property
         def amenities(self):
