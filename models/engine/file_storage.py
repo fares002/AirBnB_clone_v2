@@ -66,6 +66,6 @@ class FileStorage:
             del self.__objects[obk]
 
     def close(self):
-        """ calls reload()
+        """ calls
         """
         self.reload()
