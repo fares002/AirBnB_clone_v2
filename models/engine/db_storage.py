@@ -55,7 +55,7 @@ class DBStorage:
                 obj_dictionry.update({'{}.{}'.
                                 format(type(cls).__name__, obj.id,): obj})
         else:
-i            for key, val in all_classes.items():
+            for key, val in all_classes.items():
                 for row in self.__session.query(val):
                     obj_dictionry.update({'{}.{}'.
                                     format(type(row).__name__, row.id,): row})
