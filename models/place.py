@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""place class"""
+"""class place"""
 from sqlalchemy.ext.declarative import declarative_base
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, Table, String, Integer, Float, ForeignKey
@@ -20,7 +20,7 @@ place_amenity = Table("place_amenity", Base.metadata,
 
 
 class Place(BaseModel, Base):
-    """place class"""
+    """calss place"""
     __tablename__ = "places"
     city_id = Column(String(60), ForeignKey("cities.id"), nullable=False)
     user_id = Column(String(60), ForeignKey("users.id"), nullable=False)
@@ -44,27 +44,27 @@ class Place(BaseModel, Base):
     else:
         @property
         def reviews(self):
-            """ review """
-            i = models.storage.all()
-            _list = []
-            re = []
-            for key in i:
+            """ reviews """
+            var = models.storage.all()
+            lista = []
+            result = []
+            for key in var:
                 review = key.replace('.', ' ')
                 review = shlex.split(review)
                 if (review[0] == 'Review'):
-                    _list.append(i[key])
-            for elem in _list:
+                    lista.append(var[key])
+            for elem in lista:
                 if (elem.place_id == self.id):
-                    re.append(elem)
-            return (re)
+                    result.append(elem)
+            return (result)
 
         @property
         def amenities(self):
-            """ amenities """
+            """ ameniteis """
             return self.amenity_ids
 
         @amenities.setter
         def amenities(self, obj=None):
-            """ amenities """
+            """ amenites"""
             if type(obj) is Amenity and obj.id not in self.amenity_ids:
                 self.amenity_ids.append(obj.id)
