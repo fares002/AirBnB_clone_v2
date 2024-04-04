@@ -8,10 +8,9 @@ from fabric.api import env, local, put, run
 from datetime import datetime
 from os.path import exists, isdir
 
-env.hosts = ['54.144.152.30', '35.174.176.12']
-env.user = 'ubuntu'  # Replace with your SSH username
-env.key_filename = '~/.ssh/school'  # Replace with the path to your private key
-
+env.hosts = ['52.91.122.57', '52.201.165.108']
+env.user = 'ubuntu'
+env.key_filename = '~/.ssh/school'
 
 def do_pack():
     """
