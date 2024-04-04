@@ -1,44 +1,71 @@
 #!/usr/bin/python3
-# fibric file.
-import os.path
-from fabric.api import env
-from fabric.api import put
-from fabric.api import run
+"""
+fabric file
+"""
 
-env.hosts = ["54.144.152.30", "35.174.176.12"]
+import os.path
+from fabric.api import env, local, put, run
+from datetime import datetime
+from os.path import exists, isdir
+
+env.hosts = ['54.144.152.30', '35.174.176.12']
+env.user = 'ubuntu'  # Replace with your SSH username
+env.key_filename = '~/.ssh/school'  # Replace with the path to your private key
+
+
+def do_pack():
+    """
+    archieve packr
+    """
+    try:
+        current_time = datetime.now().strftime("%Y%m%d%H%M%S")
+        archive_path = "versions/web_static_{}.tgz".format(current_time)
+        local("mkdir -p versions")
+        local("tar -cvzf {} web_static".format(archive_path))
+        return archive_path
+    except Exception as e:
+        return None
 
 
 def do_deploy(archive_path):
     """
-    archeive distrbuting.
+    archeieve the web servers
     """
-    if os.path.isfile(archive_path) is False:
+    if not os.path.exists(archive_path):
         return False
-    file = archive_path.split("/")[-1]
-    splt = file.split(".")[0]
 
-    if put(archive_path, "/tmp/{}".format(file)).failed is True:
+    try:
+        #
+        put(archive_path, "/tmp/")
+        archive_name = os.path.basename(archive_path)
+        release_path = "/data/web_static/releases/{}".format(
+            archive_name.split('.')[0])
+
+        #
+        run("mkdir -p {}".format(release_path))
+
+        #
+        run("tar -xzf /tmp/{} -C {}".format(archive_name, release_path))
+
+        #
+        run("rm /tmp/{}".format(archive_name))
+        run("mv {}/web_static/* {}".format(release_path, release_path))
+        run("rm -rf {}/web_static".format(release_path))
+        run("rm -rf /data/web_static/current")
+        run("ln -s {} /data/web_static/current".format(release_path))
+
+        print("New version deployed!")
+        return True
+    except Exception as e:
         return False
-    if run("rm -rf /data/web_static/releases/{}/".
-           format(splt)).failed is True:
-        return False
-    if run("mkdir -p /data/web_static/releases/{}/".
-           format(splt)).failed is True:
-        return False
-    if run("tar -xzf /tmp/{} -C /data/web_static/releases/{}/".
-           format(file, splt)).failed is True:
-        return False
-    if run("rm /tmp/{}".format(file)).failed is True:
-        return False
-    if run("mv /data/web_static/releases/{}/web_static/* "
-           "/data/web_static/releases/{}/".format(splt, splt)).failed is True:
-        return False
-    if run("rm -rf /data/web_static/releases/{}/web_static".
-           format(splt)).failed is True:
-        return False
-    if run("rm -rf /data/web_static/current").failed is True:
-        return False
-    if run("ln -s /data/web_static/releases/{}/ /data/web_static/current".
-           format(splt)).failed is True:
-        return False
-    return True
+
+
+def deploy():
+    """
+    depoly"""
+    archive_path = do_pack()
+    return archive_path and do_deploy(archive_path)
+
+
+if __name__ == "__main__":
+    deploy()
