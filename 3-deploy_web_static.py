@@ -10,7 +10,7 @@ from os.path import exists, isdir
 
 env.hosts = ['52.91.122.57', '52.201.165.108']
 env.user = 'ubuntu'
-env.key_filename = '~/.ssh/school'
+env.key_filename = '~/.ssh/id_rsa'
 
 def do_pack():
     """
