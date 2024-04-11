@@ -30,6 +30,3 @@ def do_pack():
     
     # Print details of the created archive
     print('web_static packed: {} -> {} bytes'.format(archive_path, archive_size))
-
-
-
