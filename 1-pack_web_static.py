@@ -9,13 +9,23 @@ from fabric.api import *
 from datetime import datetime
 import os
 
-time = datetime.now()
-time_str = time.strftime('%Y%m%d%H%M%S')
-archive = 'web_static_' + time_str + '.tgz'
-
 def do_pack():
-    local('sudo mkdir -p versions')
-    local(f'tar -cvzf versions/{archive}')
-    archive_path = f"versions/{archive}"
+    # Create directory if it doesn't exist
+    local('mkdir -p versions')
+    
+    # Generate unique timestamp for the archive
+    time_str = datetime.now().strftime('%Y%m%d%H%M%S')
+    archive = 'web_static_{}.tgz'.format(time_str)
+    
+    # Compress web_static folder into a .tgz archive
+    local('tar -czvf versions/{} web_static'.format(archive))
+    
+    # Calculate archive size
+    archive_path = "versions/{}".format(archive)
     archive_size = os.path.getsize(archive_path)
-    print (f'web_static packed: {archive_path} -> {archive_size}')
+    
+    # Print details of the created archive
+    print('web_static packed: {} -> {} bytes'.format(archive_path, archive_size))
+
+
+
