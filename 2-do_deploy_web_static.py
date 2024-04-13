@@ -7,12 +7,22 @@ env.hosts = ['54.152.134.222', '35.168.2.251']
 env.user = 'ubuntu'
 
 def do_deploy(archive_path):
+<<<<<<< HEAD
 
 
     if not os.path.exists(archive_path):
            print("Error: Archive file {} does not exist.".format(archive_path))
            return False
 
+=======
+"""
+deploy the archive to the web server
+"""
+    if not os.path.exists(archive_path):
+           print("Error: Archive file {} does not exist.".format(archive_path))
+           return False
+       
+>>>>>>> cddfc47fc1a2924e0f0902748c2ddd783b303b21
     filename = os.path.basename(archive_path)
     folder_name = filename.split('.')[0]
     release_path = '/data/web_static/releases/{}'.format(folder_name)
