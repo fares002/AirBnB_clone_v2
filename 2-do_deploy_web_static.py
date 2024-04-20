@@ -7,6 +7,9 @@ env.hosts = ['54.152.134.222', '35.168.2.251']
 env.user = 'ubuntu'
 
 def do_deploy(archive_path):
+    """
+    This function is to deploy 
+    """
 
     if not os.path.exists(archive_path):
            print("Error: Archive file {} does not exist.".format(archive_path))
