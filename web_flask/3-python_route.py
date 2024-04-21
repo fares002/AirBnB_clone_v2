@@ -25,10 +25,10 @@ def custom_text_c(text):
 
 @app.route('/python', strict_slashes=False)
 @app.route('/python/<text>', strict_slashes=False)
-def costom_text_python(text):
+def custom_text_python(text=cool):
     """return python {formatted text}"""
     formatted_text = text.replace('-', ' ')
-    return f"python {formatted_text}"
+    return "python {}".format(formatted_text)
 
 
 if __name__ == "__main__":
