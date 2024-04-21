@@ -20,7 +20,7 @@ def HBNB():
 def custom_text(text):
     """return c {formatted text}"""
     formatted_text = text.replace("-", " ")
-    return f"c {formatted_text}"
+    return "C {}".format(formatted_text)
 
 
 if __name__ == "__main__":
