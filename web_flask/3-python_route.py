@@ -19,7 +19,7 @@ def HBNB():
 @app.route('/c/<text>', strict_slashes=False)
 def custom_text_c(text):
     """return c {formatted}"""
-    formatted_text = text.repalce('-', ' ')
+    formatted_text = text.repalce('_', ' ')
     return f"c {formatted_text}"
 
 
@@ -27,7 +27,7 @@ def custom_text_c(text):
 @app.route('/python/<text>', strict_slashes=False)
 def custom_text_python(text=cool):
     """return python {formatted text}"""
-    formatted_text = text.replace('-', ' ')
+    formatted_text = text.replace('_', ' ')
     return "python {}".format(formatted_text)
 
 

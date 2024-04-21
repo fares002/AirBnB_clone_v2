@@ -19,7 +19,7 @@ def HBNB():
 @app.route("/c/<text>", strict_slashes=False)
 def custom_text(text):
     """return c {formatted text}"""
-    formatted_text = text.replace("-", " ")
+    formatted_text = text.replace("_", " ")
     return "C {}".format(formatted_text)
 
 
