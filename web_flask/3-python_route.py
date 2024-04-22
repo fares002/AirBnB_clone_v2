@@ -25,7 +25,7 @@ def custom_text_c(text):
 
 @app.route('/python', strict_slashes=False)
 @app.route('/python/<text>', strict_slashes=False)
-def custom_text_python(text=cool):
+def custom_text_python(text="is cool"):
     """return python {formatted text}"""
     formatted_text = text.replace('_', ' ')
     return "python {}".format(formatted_text)
