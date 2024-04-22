@@ -31,7 +31,7 @@ def custom_text_python(text=cool):
     return "python {}".format(formatted_text)
 
 
-@app.route('/number/<n>', strict_slashes=False)
+@app.route('/number/<int:n>', strict_slashes=False)
 def imnumber(n):
     """return only numbers"""
     return "{:d} is number".format(n)
